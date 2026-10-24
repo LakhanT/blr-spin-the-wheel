@@ -1,0 +1,17 @@
+{
+  "idleTimeoutSeconds": 45,
+  "games": [
+    {
+      "id": "flip-match",
+      "url": "http://127.0.0.1:5174/"
+    },
+    {
+      "id": "emoji",
+      "url": "http://127.0.0.1:5175/"
+    },
+    {
+      "id": "namma",
+      "url": "http://127.0.0.1:5173/"
+    }
+  ]
+}
