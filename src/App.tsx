@@ -32,17 +32,6 @@ function targetRotation(current: number, segmentIndex: number, total: number): n
   return current + EXTRA_TURNS * 360 + delta
 }
 
-function withAutostart(url: string): string {
-  try {
-    const next = new URL(url, window.location.origin)
-    next.searchParams.set('autostart', '1')
-    return next.toString()
-  } catch {
-    const join = url.includes('?') ? '&' : '?'
-    return `${url}${join}autostart=1`
-  }
-}
-
 async function probeGame(url: string): Promise<boolean> {
   const controller = new AbortController()
   const timer = window.setTimeout(() => controller.abort(), 2500)
@@ -153,7 +142,6 @@ export default function App() {
   }, [phase, segments.length, handleSpinEnd])
 
   const openGame = useCallback(async (game: WheelGame) => {
-    const url = withAutostart(game.url)
     setPlaying(true)
     setPlayLoading(true)
     setPlayError(null)
@@ -163,13 +151,13 @@ export default function App() {
     if (!ok) {
       setPlayLoading(false)
       setPlayError(
-        `${game.name} is not running. Start it on ${game.url} (or run start-all from the project folder), then try again.`,
+        `${game.name} is not available right now. Check the game URL and try again.`,
       )
       return
     }
 
-    setPlayUrl(url)
-    // Give the iframe a moment to paint before hiding the loader.
+    // Open the game attract / start screen — guest taps PLAY there.
+    setPlayUrl(game.url)
     window.setTimeout(() => setPlayLoading(false), 600)
   }, [])
 
